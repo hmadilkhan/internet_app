@@ -83,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextField(
                     controller: passController,
+                    obscureText: true,
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color(0xFF393939),
@@ -171,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Sign Up',
                           style: TextStyle(
                             color: Color(0xFF755DC1),
-                            fontSize: 13,
+                            fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                           ),
@@ -183,10 +184,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 15,
                   ),
                   const Text(
-                    'Forget Password?',
+                    'Forgot Password?',
                     style: TextStyle(
                       color: Color(0xFF755DC1),
-                      fontSize: 13,
+                      fontSize: 20,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),

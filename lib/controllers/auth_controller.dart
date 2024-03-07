@@ -27,9 +27,10 @@ class AuthController extends GetxController {
       prefs.setBool("isLogedIn", true);
       var bearerToken = 'Bearer ${userModel.token}';
       prefs.setString("justToken", userModel.token.toString());
+      prefs.setString("name", userModel.name.toString());
       prefs.setString("token", bearerToken);
       isLoggedIn.value = false;
-      Get.to(() => const HomeScreen());
+      Get.off(() => const HomeScreen());
     } else {
       isLoggedIn.value = false;
     }
@@ -39,7 +40,7 @@ class AuthController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString("token") ?? "";
     if (token != "") {
-      Get.off(const HomeScreen());
+      Get.off(() => const HomeScreen());
     }
   }
 }

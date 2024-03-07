@@ -18,4 +18,36 @@ class CustomerService {
       return null;
     }
   }
+
+  Future getAreas() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString("token");
+      final uri = Uri.parse(ApiList.areas);
+      final response = await http.post(uri, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token.toString(),
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future getPackages() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString("token");
+      final uri = Uri.parse(ApiList.package);
+      final response = await http.post(uri, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token.toString(),
+      });
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
 }

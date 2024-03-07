@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_app/screens/customer_screen.dart';
+import 'package:internet_app/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -17,13 +18,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
     super.initState();
     setvalues();
   }
-  
-  void setvalues() async{
+
+  void setvalues() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.getString("name")!;
-    setState(() {
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,7 +33,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration:const BoxDecoration(
+            decoration: const BoxDecoration(
                 // color: Colors.blue,
                 ),
             child: Column(
@@ -48,7 +49,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   name,
                   style: const TextStyle(
                     color: Colors.black45,
-                    fontSize: 20,
+                    fontSize: 15,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
                   ),
@@ -57,10 +58,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'Home',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onTap: () {
+              Get.off(() => const HomeScreen());
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.supervised_user_circle_rounded),
-            title: const Text('Customers',style: TextStyle(
-              fontSize: 20,
-            ),),
+            title: const Text(
+              'Customers',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
             onTap: () {
               Get.off(() => const CustomerScreen());
             },

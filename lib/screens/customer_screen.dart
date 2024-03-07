@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:internet_app/controllers/customer_controller.dart';
 import 'package:internet_app/models/customer_model.dart';
+import 'package:internet_app/screens/edit_customer.dart';
 import 'package:internet_app/widgets/custom_drawer.dart';
 
 class CustomerScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
       drawer: const CustomDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: GetBuilder<CustomerController>(builder: (controller) {
         return Obx(
@@ -46,7 +47,10 @@ class _CustomerScreenState extends State<CustomerScreen> {
                             backgroundColor: Colors.amber.shade400,
                             icon: Icons.edit,
                             label: 'Edit',
-                            onPressed: (context) => _onDismissed(),
+                            onPressed: (context) =>
+                                // Get.off(() => EditCustomer(dataList: customer)),
+                                Get.to(const EditCustomer(),
+                                    arguments: customer),
                           ),
                           SlidableAction(
                             backgroundColor: Colors.red.shade400,
@@ -75,7 +79,7 @@ Widget customerTile(Customer customer) => ListTile(
       title: Text(
         customer.name!.toUpperCase(),
         style: const TextStyle(
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: Colors.black,
           fontFamily: "Poppins",
@@ -85,7 +89,7 @@ Widget customerTile(Customer customer) => ListTile(
       trailing: Text(
         "Rs. ${customer.amount.toString()}",
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 15,
           fontWeight: FontWeight.w600,
           color: Colors.black,
           fontFamily: "Poppins",

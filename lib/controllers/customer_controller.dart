@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:internet_app/models/area_model.dart';
 import 'package:internet_app/models/customer_model.dart';
 import 'package:internet_app/models/package_model.dart';
+import 'package:internet_app/screens/customer_screen.dart';
 import 'package:internet_app/services/customer_service.dart';
 
 class CustomerController extends GetxController {
@@ -16,8 +16,6 @@ class CustomerController extends GetxController {
   void onInit() {
     super.onInit();
     allCustomers();
-    // getAreas();
-    // getPackages();
   }
 
   Future<void> allCustomers() async {
@@ -28,9 +26,9 @@ class CustomerController extends GetxController {
       var results = List.generate(maps['data']['customers'].length,
           (index) => Customer.fromJson(maps?['data']['customers'][index]));
       listProduct.value = results;
-      Get.snackbar("Customer", "Fetched successfully");
+      // Get.snackbar("Customer", "Fetched successfully");
     } else {
-      Get.snackbar("Customer", "Fetched successfully");
+      Get.snackbar("Error", "Error in Fetched");
     }
   }
 
@@ -38,41 +36,37 @@ class CustomerController extends GetxController {
     CustomerService service = CustomerService();
     var response = await service.getAreas();
     if (response.statusCode == 200) {
-      return response.body;
-      // products = parseProducts(response.body);
-      // final maps = json.decode(response.body);
-      // var results = List.generate(maps['data']['areas'].length,
-      //     (index) => Area.fromJson(maps?['data']['areas'][index]));
-      // listAreas.value = results;
-      // print(response.body);
-      // return parseProducts(response.body);
-      // Get.snackbar("Customer", "Fetched successfully");
+      return json.decode(response.body);
     } else {
       return null;
       // Get.snackbar("Error", "Some Error Occurred in fetching Areas");
     }
   }
 
-  List<Area> parseProducts(String responseBody) {
-    final parsed =
-        (jsonDecode(responseBody) as List).cast<Map<String, dynamic>>();
-
-    return parsed
-        .map<Area>((json) => Area.fromJson(json))
-        .toList();
-  }
-
-  Future<void> getPackages() async {
+  Future getPackages() async {
     CustomerService service = CustomerService();
     var response = await service.getPackages();
     if (response.statusCode == 200) {
-      final maps = json.decode(response.body);
-      var results = List.generate(maps['data']['packages'].length,
-          (index) => Package.fromJson(maps?['data']['packages'][index]));
-      listPackages.value = results;
-      // Get.snackbar("Customer", "Fetched successfully");
+      return json.decode(response.body);
     } else {
-      Get.snackbar("Error", "Some Error Occurred in fetching Packages");
+      return null;
+      // Get.snackbar("Error", "Some Error Occurred in fetching Areas");
+    }
+  }
+
+
+  Future updateCustomer(int id, String name, String username, String mobile,
+      String amount, String area, String package, String address) async {
+    CustomerService service = CustomerService();
+    var response = await service.updateCustomers(
+        id, name, username, mobile, amount, area, package, address);
+    if (response.statusCode == 200) {
+      Get.snackbar("Success", "Customer updated.");
+      Get.off(() => const CustomerScreen());
+      allCustomers();
+    } else {
+      // return null;
+      Get.snackbar("Error", "Some Error Occurred in fetching Areas");
     }
   }
 }

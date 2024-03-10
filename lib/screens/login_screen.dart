@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final authController = Get.put(AuthController());
+  // final authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 10),
               child: Column(
                 textDirection: TextDirection.ltr,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color(0xFF393939),
-                      fontSize: 13,
+                      fontSize: 20,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w400,
                     ),
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color(0xFF393939),
-                      fontSize: 13,
+                      fontSize: 20,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w400,
                     ),
@@ -123,30 +123,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: SizedBox(
                       width: 329,
                       height: 56,
-                      child: controller.isLoggedIn.value == true
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {
-                                // loginService.login(
-                                //     emailController.text, passController.text);
-                                controller.login(
-                                    emailController.text, passController.text);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF9F7BFF),
-                              ),
-                              child: const Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
+                      child: Obx(
+                        () => controller.isLoggedIn.value == true
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : ElevatedButton(
+                                onPressed: () {
+                                  // loginService.login(
+                                  //     emailController.text, passController.text);
+                                  controller.login(emailController.text,
+                                      passController.text);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF9F7BFF),
+                                ),
+                                child: const Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
-                            ),
+                      ),
                     ),
                   ),
                   const SizedBox(

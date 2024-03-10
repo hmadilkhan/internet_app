@@ -18,11 +18,13 @@ class _CustomerScreenState extends State<CustomerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text("Customers", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color(0xFF9F7BFF),
       ),
-      drawer: const CustomDrawer(),
+   
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.add),

@@ -39,17 +39,16 @@ class _EditCustomerState extends State<EditCustomer> {
         TextEditingController(text: customer.address);
     final TextEditingController amount =
         TextEditingController(text: customer.amount);
-    final TextEditingController area =
-        TextEditingController(text: customer.area);
-    final TextEditingController package =
-        TextEditingController(text: customer.package);
-    List<String> _locations = ['A', 'B', 'C', 'D']; // Option 2
-    String _selectedLocation = "A"; // Option 2
-    String _selectedPackage = "A"; // Option 2
+
+    String _selectedLocation = customer.area ?? "2"; // Option 2
+    String _selectedPackage = customer.package ?? "2"; // Option 2
 
     return GetBuilder<CustomerController>(builder: (controller) {
       return Scaffold(
           appBar: AppBar(
+            iconTheme: const IconThemeData(
+              color: Colors.white
+            ),
             title: const Text("Edit Customer",
                 style: TextStyle(color: Colors.white)),
             backgroundColor: const Color(0xFF9F7BFF),
@@ -86,6 +85,7 @@ class _EditCustomerState extends State<EditCustomer> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
                     controller: mobile,
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       labelText: 'Mobile',
                       border: OutlineInputBorder(),
@@ -98,6 +98,7 @@ class _EditCustomerState extends State<EditCustomer> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                   child: TextFormField(
                     controller: amount,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Amount',
                       border: OutlineInputBorder(),
@@ -105,82 +106,72 @@ class _EditCustomerState extends State<EditCustomer> {
                     ),
                   ),
                 ),
-                FutureBuilder(
-                    future: controller.getAreas(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var areas = snapshot.data!;
-                        print(snapshot.data);
-                        return DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Area',
-                            border: OutlineInputBorder(),
-                          ),
-                          hint: const Text(
-                              'Please choose a area'), // Not necessary for Option 1
-                          value: _selectedLocation,
-                          onChanged: (newValue) {
-                            setState(() {
-                              // _selectedLocation = newValue!;
-                            });
-                          },
-                          items: snapshot.data.map((area) {
-                            return DropdownMenuItem(
-                              value: area.id,
-                              child: Text(area.name.toString()),
-                            );
-                          }).toList(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FutureBuilder(
+                      future: controller.getAreas(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var areas = snapshot.data['data']['areas']!;
+                          return DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Area',
+                                border: OutlineInputBorder(),
+                              ),
+                              hint: const Text(
+                                  'Please choose a area'), // Not necessary for Option 1
+                              value: _selectedLocation,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedLocation = newValue!;
+                                });
+                              },
+                              items:
+                                  areas.map<DropdownMenuItem<String>>((area) {
+                                return DropdownMenuItem<String>(
+                                  value: area['id'].toString(),
+                                  child: Text(area['name']),
+                                );
+                              }).toList());
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }),
-
-                // return DropdownButtonFormField(
-                //         decoration: const InputDecoration(
-                //           labelText: 'Area',
-                //           border: OutlineInputBorder(),
-                //         ),
-                //         hint: const Text(
-                //             'Please choose a area'), // Not necessary for Option 1
-                //         value: _selectedLocation,
-                //         onChanged: (newValue) {
-                //           setState(() {
-                //             // _selectedLocation = newValue!;
-                //           });
-                //         },
-                //         items: controller.listAreas.value.map((area) {
-                //           return DropdownMenuItem(
-                //             value: area.id,
-                //             child: Text(area.name.toString()),
-                //           );
-                //         }).toList(),
-                //       );
-                // Padding(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                //   child: DropdownButtonFormField(
-                //     decoration: const InputDecoration(
-                //       labelText: 'Packages',
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     hint: const Text(
-                //         'Please choose a package'), // Not necessary for Option 1
-                //     value: _selectedPackage,
-                //     onChanged: (newValue) {
-                //       setState(() {
-                //         // _selectedPackage = newValue!;
-                //       });
-                //     },
-                //     items: controller.listPackages.map((package) {
-                //       return DropdownMenuItem(
-                //         value: package.id,
-                //         child: Text(package.name.toString()),
-                //       );
-                //     }).toList(),
-                //   ),
-                // ),
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FutureBuilder(
+                      future: controller.getPackages(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var packages = snapshot.data["data"]["packages"]!;
+                          return DropdownButtonFormField<String>(
+                              decoration: const InputDecoration(
+                                labelText: 'Area',
+                                border: OutlineInputBorder(),
+                              ),
+                              hint: const Text(
+                                  'Please choose a Package'), // Not necessary for Option 1
+                              value: _selectedPackage,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedPackage = newValue!;
+                                });
+                              },
+                              items: packages
+                                  .map<DropdownMenuItem<String>>((area) {
+                                return DropdownMenuItem<String>(
+                                  value: area['id'].toString(),
+                                  child: Text(area['name']),
+                                );
+                              }).toList());
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }),
+                ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -193,7 +184,35 @@ class _EditCustomerState extends State<EditCustomer> {
                       hintText: 'Enter Address',
                     ),
                   ),
-                )
+                ),
+                Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: OutlinedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            const MaterialStatePropertyAll(Color(0xFF9F7BFF)),
+                        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return Colors.blue.withOpacity(0.04);
+                            }
+                            if (states.contains(MaterialState.focused) ||
+                                states.contains(MaterialState.pressed)) {
+                              return Colors.blue.withOpacity(0.12);
+                            }
+                            return null; // Defer to the widget's default.
+                          },
+                        ),
+                      ),
+                      child: const Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      onPressed: () {
+                        controller.updateCustomer(customer.id,name.text, username.text, mobile.text, amount.text, _selectedLocation, _selectedPackage, address.text);
+                      },
+                    ))
               ],
             ),
           ));

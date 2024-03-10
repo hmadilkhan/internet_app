@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_app/models/user_model.dart';
 import 'package:internet_app/screens/home_screen.dart';
@@ -29,10 +30,17 @@ class AuthController extends GetxController {
       prefs.setString("justToken", userModel.token.toString());
       prefs.setString("name", userModel.name.toString());
       prefs.setString("token", bearerToken);
+      Get.to(() => const HomeScreen());
       isLoggedIn.value = false;
-      Get.off(() => const HomeScreen());
     } else {
       isLoggedIn.value = false;
+      Get.snackbar(
+        "Error",
+        "Username or Password is incorrect.",
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.TOP,
+        colorText: Colors.white
+      );
     }
   }
 

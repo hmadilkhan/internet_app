@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_app/screens/customer_screen.dart';
 import 'package:internet_app/screens/home_screen.dart';
+import 'package:internet_app/screens/vouchers_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -79,6 +80,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             onTap: () {
               Get.off(() => const CustomerScreen());
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.supervised_user_circle_rounded),
+            title: const Text(
+              'Vouchers',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onTap: () {
+              Get.off(() => const VoucherScreen());
             },
           ),
         ],
